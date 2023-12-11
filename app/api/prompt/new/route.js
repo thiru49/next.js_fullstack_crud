@@ -1,13 +1,14 @@
 import Prompt from "@models/prompt";
 import { connectToDB } from "@utils/database";
+import mongoose from 'mongoose';
 
-export const POST = async (req) =>{
-     const {userId,prompt,tag} = await req.json();
-
+export const POST = async (request) =>{
+     const {userID,prompt,tag} = await request.json();
+      
      try {
           await connectToDB();
           const NewPrompt = new Prompt({
-               creater:userId,
+               creator: userID,
                prompt,
                tag
           })

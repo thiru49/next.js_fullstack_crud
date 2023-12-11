@@ -12,51 +12,40 @@ const handler = NextAuth({
   ],
   callbacks:{
     async session({ session }) {
-      try {
-        await connectToDB();
+     
 
         // Fetch additional user data from the database
         const sessionUser = await User.findOne({ email: session.user.email });
 
-        if (sessionUser) {
+      
           session.user.id = sessionUser._id.toString();
-        }
-
+    
         return session;
-      } catch (error) {
-        console.error('Error fetching user data:', error.message);
-        return session;
-      }
-  
     },
-    async signIn({ profile}) {
-  
+    async signIn({ account, profile, user, credentials }) {
       try {
         await connectToDB();
-  
-  
-        //check if a user already exists
-        const userExists = await User.findOne({
-          email:profile.email
-        
-        })
-        //if not, create new user
+
+        // check if user already exists
+        const userExists = await User.findOne({ email: profile.email });
+
+        // if not, create a new document and save user in MongoDB
         if (!userExists) {
           await User.create({
-            email:profile.email,
+            email: profile.email,
             username: profile.name.replace(" ", "").toLowerCase(),
-            image: profile.picture
-          })
+            image: profile.avatar_url,
+          });
         }
+
         return true
       } catch (error) {
         console.log("Error checking if user exists: ", error.message);
         return false
       }
-       
-  
-  
     },
+  
+    
   }
  
 });
