@@ -14,6 +14,7 @@ const Nav = () => {
   useEffect(() => {
     const setupProvider = async () => {
       const res = await getProviders();
+      console.log(res)
       setProviders(res);
     }
     setupProvider();
@@ -47,10 +48,10 @@ const Nav = () => {
             <Link href='/profile'>
               <Image
                 src={session?.user.image}
+                alt={`${session.user.name ? session.user.name : 'profile'}`}
                 width={37}
                 height={37}
                 className='rounded-full'
-                alt='profile'
               />
             </Link>
           </div>
