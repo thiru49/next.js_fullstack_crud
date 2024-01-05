@@ -7,8 +7,7 @@ const handler = NextAuth({
   providers: [
    GitHubProvider({
     clientId: process.env.GITHUB_ID,
-    clientSecret: process.env.GITHUB_SECRET,
-    redirectUrl: `${process.env.NEXTAUTH_URL}/api/auth/callback/github`,
+    clientSecret: process.env.GITHUB_SECRET
    })
   ],
   callbacks:{
